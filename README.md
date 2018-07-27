@@ -31,17 +31,16 @@ $ pip install paubox
 
 Sending via Paubox is easy. This is the minimum content needed to send an email.
 ```python
-import json
-from paubox.client import *
-from paubox.helper.mail import *
+import paubox
+from paubox.helpers.mail import *
 
-paubox = PauboxApiClient()
+paubox_client = paubox.PauboxApiClient()
 recipients = ['recipient@example.com']
 from_ = 'sender@yourdomain.com'
 subject = 'Testing!'
 content = { "text/plain": "Hello World!" }
-mail = Mail(recipients, from_, subject, content)
-response = paubox.send(mail.get())
+mail = Mail(from_, subject, recipients, content)
+response = paubox_client.send(mail.get())
 print(response.status_code)
 print(response.headers)
 print(response.text)
@@ -49,10 +48,9 @@ print(response.text)
 
 ### Sending Messages without the Mail Helper Class
 ```python
-import json
-from paubox.client import *
+import paubox
 
-paubox = PauboxApiClient()
+paubox_client = paubox.PauboxApiClient()
 mail = {
   "data": {
     "message": {
@@ -69,7 +67,7 @@ mail = {
     }
   }
 }
-response = paubox.send(mail)
+response = paubox_client.send(mail)
 print(response.status_code)
 print(response.headers)
 print(response.text)
@@ -77,11 +75,10 @@ print(response.text)
 
 ### Checking Email Dispositions
 ```python
-import json
-from paubox.client import *
+import paubox
 
-paubox = PauboxApiClient()
-response = paubox.get("SOURCE_TRACKING_ID")
+paubox_client = paubox.PauboxApiClient()
+response = paubox_client.get("SOURCE_TRACKING_ID")
 print(response.status_code)
 print(response.headers)
 print(response.text)
@@ -90,7 +87,7 @@ print(response.text)
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Paubox/python-sdk-demo.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Paubox/paubox-python.
 
 
 ## License

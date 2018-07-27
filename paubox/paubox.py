@@ -1,8 +1,7 @@
 import json
 import requests
 import os
-import pdb
-from paubox.helper.errors import *
+from .helpers.errors import *
 
 class PauboxApiClient():
   def __init__(
