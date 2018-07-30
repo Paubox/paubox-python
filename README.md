@@ -75,7 +75,7 @@ print(response.text)
 
 ### Sending Messages with all available headers
 
-## Using Mail Class Helper
+#### Using Mail Class Helper
 ```python
 import paubox
 from paubox.helpers.mail import *
@@ -94,7 +94,7 @@ optional_headers = {
     "contentType": "text/plain",
     "content": "SGVsbG8gV29ybGQh"
   }],
-  'reply_to': 'replies@reneey.com',
+  'reply_to': 'replies@yourdomain.com',
   'bcc': 'recipient2@example.com'
 }
 mail = Mail(from_, subject, recipients, content, optional_headers)
@@ -104,7 +104,7 @@ print(response.headers)
 print(response.text)
 ```
 
-## Without Mail Class Helper
+#### Without the Mail Class Helper
 ```python
 import paubox
 
@@ -141,6 +141,7 @@ print(response.text)
 
 
 ### Checking Email Dispositions
+The SOURCE_TRACKING_ID of a message is returned in the response.text of your send request. Use response.to_dict to access the response text as a dictionary.
 ```python
 import paubox
 
