@@ -35,9 +35,9 @@ import paubox
 from paubox.helpers.mail import *
 
 paubox_client = paubox.PauboxApiClient()
-recipients = ['recipient@example.com']
-from_ = 'sender@yourdomain.com'
-subject = 'Testing!'
+recipients = ["recipient@example.com"]
+from_ = "sender@yourdomain.com"
+subject = "Testing!"
 content = { "text/plain": "Hello World!" }
 mail = Mail(from_, subject, recipients, content)
 response = paubox_client.send(mail.get())
@@ -72,6 +72,73 @@ print(response.status_code)
 print(response.headers)
 print(response.text)
 ```
+
+### Sending Messages with all available headers
+
+## Using Mail Class Helper
+```python
+import paubox
+from paubox.helpers.mail import *
+
+paubox_client = paubox.PauboxApiClient()
+recipients = ["recipient@example.com"]
+from_ = "sender@yourdomain.com"
+subject = "Testing!"
+content = {
+  "text/plain": "Hello World!",
+  "text/html": "<html><body><h1>Hello World!</h1></body></html>"
+}
+optional_headers = {
+  "attachments": [{
+    "fileName": "the_file.txt",
+    "contentType": "text/plain",
+    "content": "SGVsbG8gV29ybGQh"
+  }],
+  'reply_to': 'replies@reneey.com',
+  'bcc': 'recipient2@example.com'
+}
+mail = Mail(from_, subject, recipients, content, optional_headers)
+response = paubox_client.send(mail.get())
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
+## Without Mail Class Helper
+```python
+import paubox
+
+paubox_client = paubox.PauboxApiClient()
+mail = {
+  "data": {
+    "message": {
+      "recipients": [
+        "recipient@example.com"
+      ],
+      "bcc": ["recipient2@example.com"],
+      "headers": {
+        "subject": "Testing!",
+        "from": "Sender <sender@yourdomain.com>",
+        "reply-to": "Reply-to <replies@yourdomain.com>"
+      },
+      "content": {
+        "text/plain": "Hello World!",
+        "text/html": "<html><body><h1>Hello World!</h1></body></html>"
+      },
+      "attachments": [{
+          "fileName": "the_file.txt",
+          "contentType": "text/plain",
+          "content": "SGVsbG8gV29ybGQh"
+      }]
+    }
+  }
+}
+response = paubox_client.send(mail)
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
 
 ### Checking Email Dispositions
 ```python
