@@ -3,8 +3,6 @@ This package and Paubox Transactional Email HTTP API are currently in alpha deve
 
 This is the official Python package for the Paubox Transactional Email HTTP API. The Paubox Transactional Email API allows your application to send secure, HIPAA-compliant email via Paubox and track deliveries and opens.
 
-It extends the [Requests Library](https://github.com/requests/requests) for seamless integration in your existing Python application.
-
 ## Installation
 
 ### Getting Paubox API Credentials
@@ -14,16 +12,18 @@ You will need to have a Paubox account. Please contact [Paubox Customer Success]
 
 ```
 $ echo "export PAUBOX_API_KEY='YOUR_API_KEY'" > .env
-$ echo "export PAUBOX_HOST='http://api.paubox.net/v1/YOUR_ENDPOINT_NAME'" > .env
+$ echo "export PAUBOX_HOST='https://api.paubox.net/v1/YOUR_ENDPOINT_NAME'" >> .env
 $ echo ".env" >> .gitignore
 $ source .env
 ```
 
 ### Install Package
-
 ```
 $ pip install paubox
 ```
+
+### Dependencies
+[Requests](https://github.com/requests/requests)
 
 ## Usage
 
@@ -32,15 +32,15 @@ $ pip install paubox
 Sending via Paubox is easy. This is the minimum content needed to send an email.
 ```python
 import paubox
-from paubox.helpers.mail import *
+from paubox.helpers.mail import Mail
 
 paubox_client = paubox.PauboxApiClient()
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
-content = { "text/plain": "Hello World!" }
+content = {"text/plain": "Hello World!"}
 mail = Mail(from_, subject, recipients, content)
-response = paubox_client.send(mail.get())
+response = paubox_client.send(mail.api_format())
 print(response.status_code)
 print(response.headers)
 print(response.text)
@@ -52,20 +52,20 @@ import paubox
 
 paubox_client = paubox.PauboxApiClient()
 mail = {
-  "data": {
-    "message": {
-      "recipients": [
-        "reicpient@example.com"
-      ],
-      "headers": {
-        "subject": "Testing!",
-        "from": "sender@yourdomain.com"
-      },
-      "content": {
-        "text/plain": "Hello World!",
-      }
+    "data": {
+        "message": {
+            "recipients": [
+                "recipient@example.com"
+            ],
+            "headers": {
+                "subject": "Testing!",
+                "from": "sender@yourdomain.com"
+            },
+            "content": {
+                "text/plain": "Hello World!",
+            }
+        }
     }
-  }
 }
 response = paubox_client.send(mail)
 print(response.status_code)
@@ -78,24 +78,26 @@ print(response.text)
 #### Using Mail Class Helper
 ```python
 import paubox
+import base64
 from paubox.helpers.mail import *
 
 paubox_client = paubox.PauboxApiClient()
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
+attachment_content = base64.b64encode("Hello World!")
 content = {
-  "text/plain": "Hello World!",
-  "text/html": "<html><body><h1>Hello World!</h1></body></html>"
+    "text/plain": "Hello World!",
+    "text/html": "<html><body><h1>Hello World!</h1></body></html>"
 }
 optional_headers = {
-  "attachments": [{
-    "fileName": "the_file.txt",
-    "contentType": "text/plain",
-    "content": "SGVsbG8gV29ybGQh"
-  }],
-  'reply_to': 'replies@yourdomain.com',
-  'bcc': 'recipient2@example.com'
+    "attachments": [{
+        "fileName": "the_file.txt",
+        "contentType": "text/plain",
+        "content": attachment_content
+    }],
+    'reply_to': 'replies@yourdomain.com',
+    'bcc': 'recipient2@example.com'
 }
 mail = Mail(from_, subject, recipients, content, optional_headers)
 response = paubox_client.send(mail.get())
@@ -107,31 +109,33 @@ print(response.text)
 #### Without the Mail Class Helper
 ```python
 import paubox
+import base64
 
 paubox_client = paubox.PauboxApiClient()
+attachment_content = base64.b64encode("Hello World!")
 mail = {
-  "data": {
-    "message": {
-      "recipients": [
-        "recipient@example.com"
-      ],
-      "bcc": ["recipient2@example.com"],
-      "headers": {
-        "subject": "Testing!",
-        "from": "Sender <sender@yourdomain.com>",
-        "reply-to": "Reply-to <replies@yourdomain.com>"
-      },
-      "content": {
-        "text/plain": "Hello World!",
-        "text/html": "<html><body><h1>Hello World!</h1></body></html>"
-      },
-      "attachments": [{
-          "fileName": "the_file.txt",
-          "contentType": "text/plain",
-          "content": "SGVsbG8gV29ybGQh"
-      }]
+    "data": {
+        "message": {
+            "recipients": [
+                "recipient@example.com"
+            ],
+            "bcc": ["recipient2@example.com"],
+            "headers": {
+                "subject": "Testing!",
+                "from": "Sender <sender@yourdomain.com>",
+                "reply-to": "Reply-to <replies@yourdomain.com>"
+            },
+            "content": {
+                "text/plain": "Hello World!",
+                "text/html": "<html><body><h1>Hello World!</h1></body></html>"
+            },
+            "attachments": [{
+                    "fileName": "the_file.txt",
+                    "contentType": "text/plain",
+                    "content": attachment_content
+            }]
+        }
     }
-  }
 }
 response = paubox_client.send(mail)
 print(response.status_code)
@@ -146,10 +150,10 @@ The SOURCE_TRACKING_ID of a message is returned in the response.text of your sen
 import paubox
 
 paubox_client = paubox.PauboxApiClient()
-response = paubox_client.get("SOURCE_TRACKING_ID")
-print(response.status_code)
-print(response.headers)
-print(response.text)
+disposition_response = paubox_client.get("SOURCE_TRACKING_ID")
+print(disposition_response.status_code)
+print(disposition_response.headers)
+print(disposition_response.text)
 ```
 
 
