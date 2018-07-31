@@ -40,7 +40,7 @@ from_ = "sender@yourdomain.com"
 subject = "Testing!"
 content = {"text/plain": "Hello World!"}
 mail = Mail(from_, subject, recipients, content)
-response = paubox_client.send(mail.api_format())
+response = paubox_client.send(mail.get())
 print(response.status_code)
 print(response.headers)
 print(response.text)
