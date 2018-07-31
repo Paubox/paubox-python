@@ -79,7 +79,7 @@ print(response.text)
 ```python
 import paubox
 import base64
-from paubox.helpers.mail import *
+from paubox.helpers.mail import Mail
 
 paubox_client = paubox.PauboxApiClient()
 recipients = ["recipient@example.com"]
