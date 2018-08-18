@@ -1,8 +1,16 @@
-# Paubox Package
+<img src="https://github.com/Paubox/paubox-csharp/raw/master/paubox_logo.png" alt="Paubox" width="150px">
+# Paubox Python Package
 This package and Paubox Transactional Email HTTP API are currently in alpha development.
 
 This is the official Python package for the Paubox Transactional Email HTTP API. The Paubox Transactional Email API allows your application to send secure, HIPAA-compliant email via Paubox and track deliveries and opens.
 
+# Table of Contents
+* [Installation](#installation)
+*  [Usage](#usage)
+*  [Contributing](#contributing)
+*  [License](#license)
+
+<a name="#installation"></a>
 ## Installation
 
 ### Getting Paubox API Credentials
@@ -25,6 +33,7 @@ $ pip install paubox
 ### Dependencies
 [Requests](https://github.com/requests/requests)
 
+<a name="#usate"></a>
 ## Usage
 
 ### Sending Messages with the Paubox Mail Helper
@@ -156,12 +165,12 @@ print(disposition_response.headers)
 print(disposition_response.text)
 ```
 
-
+<a name="#contributing"></a>
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Paubox/paubox-python.
 
-
+<a name="#license"></a>
 ## License
 
 Licensed under the Apache License, Version 2.0 (the "License");
