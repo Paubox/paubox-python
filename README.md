@@ -33,7 +33,7 @@ $ pip install paubox
 ### Dependencies
 [Requests](https://github.com/requests/requests)
 
-<a name="#usate"></a>
+<a name="#usage"></a>
 ## Usage
 
 ### Sending Messages with the Paubox Mail Helper
