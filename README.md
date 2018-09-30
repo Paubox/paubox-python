@@ -16,7 +16,9 @@ This is the official Python package for the Paubox Transactional Email HTTP API.
 ## Installation
 
 ### Getting Paubox API Credentials
-You will need to have a Paubox account. Please contact [Paubox Customer Success](https://paubox.zendesk.com/hc/en-us) for details on gaining access to the Transactional Email API alpha testing program.
+You will need to have a Paubox account. You can [sign up here](https://www.paubox.com/join/see-pricing?unit=messages).
+
+Once you have an account, follow the instructions on the Rest API dashboard to verify domain ownership and generate API credentials.
 
 ### Setup Environment Variables
 
