@@ -13,7 +13,10 @@ class Mail(object):
             subject=None,
             recipients=None,
             content=None,
-            optional_headers=None):
+            optional_headers=None,
+            AllowNonTLS=None,
+            forceSecureNotification=None,
+            ):
         """
         :param from_: From email address.
         :type from: basestring
@@ -33,6 +36,8 @@ class Mail(object):
         self._bcc = None
         self._reply_to = None
         self._attachments = []
+        self.AllowNonTLS = None
+        self.forceSecureNotification = None
         if from_:
             self.from_ = from_
         if subject:
@@ -41,6 +46,10 @@ class Mail(object):
             self.recipients = recipients
         if content:
             self.content = content
+        if AllowNonTLS:
+            self.AllowNonTLS = AllowNonTLS
+        if forceSecureNotification:
+            self.forceSecureNotification = forceSecureNotification
 
         if optional_headers:
             if optional_headers.has_key('bcc'):
@@ -56,6 +65,8 @@ class Mail(object):
         mail["data"]["message"]["recipients"] = self.recipients
         mail["data"]["message"]["headers"] = {"subject": self.subject, "from":self.from_}
         mail["data"]["message"]["content"] = self.content
+        mail["data"]["message"]["AllowNonTLS"] = self.AllowNonTLS
+        mail["data"]["message"]["forceSecureNotification"] = self.forceSecureNotification
 
         if hasattr(self, 'bcc'):
             mail["data"]["message"]["bcc"] = self.bcc
