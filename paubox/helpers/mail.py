@@ -15,7 +15,7 @@ class Mail(object):
             content=None,
             optional_headers=None,
             AllowNonTLS=None,
-            forceSecureNotification=None,
+            forceSecureNotification=None
             ):
         """
         :param from_: From email address.
