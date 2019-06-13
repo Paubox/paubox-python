@@ -37,7 +37,8 @@ class Mail(object):
         self._bcc = None
         self._cc = []
         self._reply_to = None
-        self._attachments = []        
+        self._attachments = []
+        self._forceSecureNotification = None      
         if from_:
             self.from_ = from_
         if subject:
@@ -60,6 +61,8 @@ class Mail(object):
                 self.reply_to = optional_headers['reply_to']
             if optional_headers.has_key('attachments'):
                 self.attachments = optional_headers['attachments']
+            if optional_headers.has_key('forceSecureNotification'):
+                self.forceSecureNotification = optional_headers['forceSecureNotification']
 
     def get(self):
         """Formats the Email to a Send Request for the Paubox Email API"""
@@ -74,5 +77,27 @@ class Mail(object):
         if hasattr(self, 'reply_to'):
             mail["data"]["message"]["headers"]["reply-to"] = self.reply_to
         if hasattr(self, 'attachments'):
-            mail["data"]["message"]["attachments"] = self.attachments        
+            mail["data"]["message"]["attachments"] = self.attachments
+        if hasattr(self, 'forceSecureNotification'):
+            self.forceSecureNotification = self._return_valid_forcesecurenotification_value()
+            if(self.forceSecureNotification != None):
+                mail["data"]["message"]["forceSecureNotification"] = self.forceSecureNotification                    
         return mail
+
+    def _return_valid_forcesecurenotification_value(self):
+        """ Returns valid ForceSecureNotification value """
+
+        _forceSecureNotification = self.forceSecureNotification
+        if isinstance(_forceSecureNotification, basestring):
+            if(_forceSecureNotification == None or _forceSecureNotification == ""):
+                return None
+            else:
+                _forceSecureNotificationValue = _forceSecureNotification.strip().lower()
+                if _forceSecureNotificationValue == 'true':
+                    return True
+                elif _forceSecureNotificationValue == 'false':
+                    return False
+                else:
+                    return None
+        else:
+            return None
