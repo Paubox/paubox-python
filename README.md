@@ -31,7 +31,7 @@ $ source .env
 
 ### Install Package
 ```
-$ pip install paubox
+$ pip install paubox-python
 ```
 
 ### Dependencies
