@@ -5,8 +5,12 @@ API application and get the email disposition of sent emails.
 Paubox Mail
 """
 
+import base64
+
+
 class Mail(object):
     """Paubox API send request formatter."""
+
     def __init__(
             self,
             from_=None,
@@ -31,8 +35,9 @@ class Mail(object):
         self._recipients = []
         self._content = None
         self._bcc = None
+        self._cc = []
         self._reply_to = None
-        self._attachments = []
+        self._attachments = []        
         if from_:
             self.from_ = from_
         if subject:
@@ -40,6 +45,12 @@ class Mail(object):
         if recipients:
             self.recipients = recipients
         if content:
+            if content.has_key('text/html'):
+                _html_text = content.get('text/html')
+                if(_html_text != None and _html_text != ""):
+                    encoded_html = base64.b64encode(_html_text)
+                    content['text/html'] = encoded_html
+
             self.content = content
 
         if optional_headers:
@@ -54,13 +65,14 @@ class Mail(object):
         """Formats the Email to a Send Request for the Paubox Email API"""
         mail = {"data": {"message": {}}}
         mail["data"]["message"]["recipients"] = self.recipients
-        mail["data"]["message"]["headers"] = {"subject": self.subject, "from":self.from_}
+        mail["data"]["message"]["headers"] = {
+            "subject": self.subject, "from": self.from_}
         mail["data"]["message"]["content"] = self.content
 
         if hasattr(self, 'bcc'):
-            mail["data"]["message"]["bcc"] = self.bcc
+            mail["data"]["message"]["bcc"] = self.bcc       
         if hasattr(self, 'reply_to'):
             mail["data"]["message"]["headers"]["reply-to"] = self.reply_to
         if hasattr(self, 'attachments'):
-            mail["data"]["message"]["attachments"] = self.attachments
+            mail["data"]["message"]["attachments"] = self.attachments        
         return mail
