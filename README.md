@@ -86,6 +86,122 @@ print(response.headers)
 print(response.text)
 ```
 
+### Allowing non-TLS message delivery
+
+If you want to send non-PHI mail that does not need to be HIPAA-compliant, you can allow the message delivery to take place even if a TLS connection is unavailable.
+
+This means the message will not be converted into a secure portal message when a nonTLS connection is encountered. For this, just pass allowNonTLS as True, as shown below:
+
+#### Using Mail Class Helper
+```python
+import paubox
+from paubox.helpers.mail import Mail
+
+paubox_client = paubox.PauboxApiClient()
+recipients = ["recipient@example.com"]
+from_ = "sender@yourdomain.com"
+subject = "Testing!"
+content = {
+    "text/plain": "Hello World!"    
+}
+optional_headers = {    
+    'reply_to': 'replies@yourdomain.com',    
+    'allowNonTLS': True
+}
+mail = Mail(from_, subject, recipients, content, optional_headers)
+response = paubox_client.send(mail.get())
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
+#### Without the Mail Class Helper
+```python
+import paubox
+
+paubox_client = paubox.PauboxApiClient()
+mail = {
+    "data": {
+        "message": {
+            "recipients": [
+                "recipient@example.com"
+            ],            
+            'allowNonTLS': True,
+            "headers": {
+                "subject": "Testing!",
+                "from": "Sender <sender@yourdomain.com>",
+                "reply-to": "Reply-to <replies@yourdomain.com>"
+            },
+            "content": {
+                "text/plain": "Hello World!",              
+            }            
+        }
+    }
+}
+response = paubox_client.send(mail)
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
+### Forcing Secure Notifications
+
+Paubox Secure Notifications allow an extra layer of security, especially when coupled with an organization's requirement for message recipients to use 2-factor authentication to read messages (this setting is available to org administrators in the Paubox Admin Panel).
+
+Instead of receiving an email with the message contents, the recipient will receive a notification email that they have a new message in Paubox.
+
+#### Using Mail Class Helper
+```python
+import paubox
+from paubox.helpers.mail import Mail
+
+paubox_client = paubox.PauboxApiClient()
+recipients = ["recipient@example.com"]
+from_ = "sender@yourdomain.com"
+subject = "Testing!"
+content = {
+    "text/plain": "Hello World!"    
+}
+optional_headers = {    
+    'reply_to': 'replies@yourdomain.com',    
+    'forceSecureNotification': 'true'
+}
+mail = Mail(from_, subject, recipients, content, optional_headers)
+response = paubox_client.send(mail.get())
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
+#### Without the Mail Class Helper
+```python
+import paubox
+
+paubox_client = paubox.PauboxApiClient()
+mail = {
+    "data": {
+        "message": {
+            "recipients": [
+                "recipient@example.com"
+            ],                        
+            'forceSecureNotification': 'true',
+            "headers": {
+                "subject": "Testing!",
+                "from": "Sender <sender@yourdomain.com>",
+                "reply-to": "Reply-to <replies@yourdomain.com>"
+            },
+            "content": {
+                "text/plain": "Hello World!"             
+            }            
+        }
+    }
+}
+response = paubox_client.send(mail)
+print(response.status_code)
+print(response.headers)
+print(response.text)
+```
+
 ### Sending Messages with all available headers
 
 #### Using Mail Class Helper
@@ -110,7 +226,10 @@ optional_headers = {
         "content": attachment_content
     }],
     'reply_to': 'replies@yourdomain.com',
-    'bcc': 'recipient2@example.com'
+    'bcc': 'recipient2@example.com',
+    'cc':['recipientcc@example.com'],
+    'forceSecureNotification': 'true',
+    'allowNonTLS': True
 }
 mail = Mail(from_, subject, recipients, content, optional_headers)
 response = paubox_client.send(mail.get())
@@ -133,6 +252,9 @@ mail = {
                 "recipient@example.com"
             ],
             "bcc": ["recipient2@example.com"],
+            'cc':['recipientcc@example.com'],
+            'forceSecureNotification':'true',
+            'allowNonTLS': True,
             "headers": {
                 "subject": "Testing!",
                 "from": "Sender <sender@yourdomain.com>",
