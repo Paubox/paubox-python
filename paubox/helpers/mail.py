@@ -38,7 +38,8 @@ class Mail(object):
         self._cc = []
         self._reply_to = None
         self._attachments = []
-        self._forceSecureNotification = None      
+        self._forceSecureNotification = None
+        self._allowNonTLS = False      
         if from_:
             self.from_ = from_
         if subject:
@@ -65,6 +66,8 @@ class Mail(object):
                 self.attachments = optional_headers['attachments']
             if optional_headers.has_key('forceSecureNotification'):
                 self.forceSecureNotification = optional_headers['forceSecureNotification']
+            if optional_headers.has_key('allowNonTLS'):
+                self.allowNonTLS = optional_headers['allowNonTLS']
 
     def get(self):
         """Formats the Email to a Send Request for the Paubox Email API"""
@@ -85,7 +88,11 @@ class Mail(object):
         if hasattr(self, 'forceSecureNotification'):
             self.forceSecureNotification = self._return_valid_forcesecurenotification_value()
             if(self.forceSecureNotification != None):
-                mail["data"]["message"]["forceSecureNotification"] = self.forceSecureNotification                    
+                mail["data"]["message"]["forceSecureNotification"] = self.forceSecureNotification
+        if hasattr(self, 'allowNonTLS'):
+            mail["data"]["message"]["allowNonTLS"] = self.allowNonTLS
+        else:
+            mail["data"]["message"]["allowNonTLS"] = False                    
         return mail
 
     def _return_valid_forcesecurenotification_value(self):
