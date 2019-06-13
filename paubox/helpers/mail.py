@@ -57,6 +57,8 @@ class Mail(object):
         if optional_headers:
             if optional_headers.has_key('bcc'):
                 self.bcc = optional_headers['bcc']
+            if optional_headers.has_key('cc'):
+                self.cc = optional_headers['cc'] 
             if optional_headers.has_key('reply_to'):
                 self.reply_to = optional_headers['reply_to']
             if optional_headers.has_key('attachments'):
@@ -73,7 +75,9 @@ class Mail(object):
         mail["data"]["message"]["content"] = self.content
 
         if hasattr(self, 'bcc'):
-            mail["data"]["message"]["bcc"] = self.bcc       
+            mail["data"]["message"]["bcc"] = self.bcc
+        if hasattr(self, 'cc'):
+            mail["data"]["message"]["cc"] = self.cc
         if hasattr(self, 'reply_to'):
             mail["data"]["message"]["headers"]["reply-to"] = self.reply_to
         if hasattr(self, 'attachments'):
