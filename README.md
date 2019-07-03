@@ -20,13 +20,19 @@ You will need to have a Paubox account. You can [sign up here](https://www.paubo
 
 Once you have an account, follow the instructions on the Rest API dashboard to verify domain ownership and generate API credentials.
 
-### Setup Environment Variables
+### Configuring API Credentials
+
+Include your API credentials in a config file (e.g. config.cfg)
 
 ```
-$ echo "export PAUBOX_API_KEY='YOUR_API_KEY'" > .env
-$ echo "export PAUBOX_HOST='https://api.paubox.net/v1/YOUR_ENDPOINT_NAME'" >> .env
-$ echo ".env" >> .gitignore
-$ source .env
+PAUBOX_HOST: 'https://api.paubox.net/v1/YOUR_ENDPOINT_NAME'
+PAUBOX_API_KEY: 'YOUR_API_KEY'
+```
+
+Please install config package using pip to load API credentials from config.cfg file:
+
+```
+$ pip install config
 ```
 
 ### Install Package
@@ -47,7 +53,11 @@ Sending via Paubox is easy. This is the minimum content needed to send an email.
 import paubox
 from paubox.helpers.mail import Mail
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_HOST, paubox_config.PAUBOX_API_KEY)
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
@@ -63,7 +73,11 @@ print(response.text)
 ```python
 import paubox
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 mail = {
     "data": {
         "message": {
@@ -97,7 +111,11 @@ This means the message will not be converted into a secure portal message when a
 import paubox
 from paubox.helpers.mail import Mail
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
@@ -119,7 +137,11 @@ print(response.text)
 ```python
 import paubox
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 mail = {
     "data": {
         "message": {
@@ -155,7 +177,11 @@ Instead of receiving an email with the message contents, the recipient will rece
 import paubox
 from paubox.helpers.mail import Mail
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
@@ -177,7 +203,11 @@ print(response.text)
 ```python
 import paubox
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 mail = {
     "data": {
         "message": {
@@ -210,7 +240,11 @@ import paubox
 import base64
 from paubox.helpers.mail import Mail
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
@@ -243,7 +277,11 @@ print(response.text)
 import paubox
 import base64
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 attachment_content = base64.b64encode("Hello World!")
 mail = {
     "data": {
@@ -284,7 +322,11 @@ The SOURCE_TRACKING_ID of a message is returned in the response.text of your sen
 ```python
 import paubox
 
-paubox_client = paubox.PauboxApiClient()
+from config import Config
+config_file = file("config.cfg")
+paubox_config = Config(config_file)
+
+paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 disposition_response = paubox_client.get("SOURCE_TRACKING_ID")
 print(disposition_response.status_code)
 print(disposition_response.headers)
