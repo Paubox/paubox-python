@@ -2,9 +2,9 @@
 
 # Paubox Python Package
 
-This package and Paubox Transactional Email HTTP API are currently in alpha development.
+This is the official Python package for the Paubox Email API. 
 
-This is the official Python package for the Paubox Transactional Email HTTP API. The Paubox Transactional Email API allows your application to send secure, HIPAA-compliant email via Paubox and track deliveries and opens.
+The Paubox Email API allows your application to send secure, HIPAA compliant email via Paubox and track deliveries and opens.
 
 # Table of Contents
 * [Installation](#installation)
@@ -352,4 +352,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ## Copyright
-Copyright &copy; 2019, Paubox Inc.
+Copyright &copy; 2020, Paubox Inc.
