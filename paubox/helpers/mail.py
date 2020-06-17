@@ -51,7 +51,7 @@ class Mail(object):
             if 'text/html' in content:
                 _html_text = content.get('text/html')
                 if(_html_text != None and _html_text != ""):
-                    encoded_html = base64.b64encode(_html_text.encode())
+                    encoded_html = base64.b64encode(_html_text)
                     content['text/html'] = encoded_html
 
             self.content = content

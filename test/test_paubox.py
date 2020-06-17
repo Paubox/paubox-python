@@ -23,7 +23,7 @@ class TestPaubox(unittest.TestCase):
         recipients = ['recipient@example.com']
         from_ = 'sender@yourdomain.com'
         subject = 'Testing!'
-        plain_html_content = '<html><body><h1>Hello World!</h1></body></html>'
+        plain_html_content = b'<html><body><h1>Hello World!</h1></body></html>'
         content = {
             'text/plain': 'Hello World!',
             'text/html': plain_html_content
@@ -42,7 +42,7 @@ class TestPaubox(unittest.TestCase):
             'allowNonTLS': True
         }
 
-        encodedHtmlContent = base64.b64encode(plain_html_content.encode())
+        encodedHtmlContent = base64.b64encode(plain_html_content)
         mail = Mail(from_, subject, recipients, content, optional_headers)
         expected_mail = {
             'data': {
@@ -120,7 +120,7 @@ class TestPaubox(unittest.TestCase):
         attachment_content = base64.b64encode(b'Hello World!')
         content = {
             'text/plain': 'Hello World!',
-            'text/html': "<html><body><h1>Hello World!</h1></body></html>"
+            'text/html': b"<html><body><h1>Hello World!</h1></body></html>"
         }
         optional_headers = {
             'attachments': [{
