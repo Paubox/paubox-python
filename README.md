@@ -57,7 +57,7 @@ from config import Config
 config_file = file("config.cfg")
 paubox_config = Config(config_file)
 
-paubox_client = paubox.PauboxApiClient( paubox_config.PAUBOX_HOST, paubox_config.PAUBOX_API_KEY)
+paubox_client = paubox.PauboxApiClient(paubox_config.PAUBOX_API_KEY, paubox_config.PAUBOX_HOST)
 recipients = ["recipient@example.com"]
 from_ = "sender@yourdomain.com"
 subject = "Testing!"
