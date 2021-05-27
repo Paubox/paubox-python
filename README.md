@@ -16,7 +16,7 @@ The Paubox Email API allows your application to send secure, HIPAA compliant ema
 ## Installation
 
 ### Getting Paubox API Credentials
-You will need to have a Paubox account. You can [sign up here](https://www.paubox.com/join/see-pricing?unit=messages).
+You will need to have a Paubox account. You can [sign up for free here](https://www.paubox.com/pricing#paubox-email-api).
 
 Once you have an account, follow the instructions on the Rest API dashboard to verify domain ownership and generate API credentials.
 
