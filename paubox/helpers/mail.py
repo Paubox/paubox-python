@@ -6,6 +6,7 @@ Paubox Mail
 """
 
 import base64
+from six import string_types
 
 
 class Mail(object):
@@ -47,7 +48,7 @@ class Mail(object):
         if recipients:
             self.recipients = recipients
         if content:
-            if content.has_key('text/html'):
+            if 'text/html' in content:
                 _html_text = content.get('text/html')
                 if(_html_text != None and _html_text != ""):
                     encoded_html = base64.b64encode(_html_text)
@@ -56,17 +57,17 @@ class Mail(object):
             self.content = content
 
         if optional_headers:
-            if optional_headers.has_key('bcc'):
+            if 'bcc' in optional_headers:
                 self.bcc = optional_headers['bcc']
-            if optional_headers.has_key('cc'):
+            if 'cc' in optional_headers:
                 self.cc = optional_headers['cc'] 
-            if optional_headers.has_key('reply_to'):
+            if 'reply_to' in optional_headers:
                 self.reply_to = optional_headers['reply_to']
-            if optional_headers.has_key('attachments'):
+            if 'attachments' in optional_headers:
                 self.attachments = optional_headers['attachments']
-            if optional_headers.has_key('forceSecureNotification'):
+            if 'forceSecureNotification' in optional_headers:
                 self.forceSecureNotification = optional_headers['forceSecureNotification']
-            if optional_headers.has_key('allowNonTLS'):
+            if 'allowNonTLS' in optional_headers:
                 self.allowNonTLS = optional_headers['allowNonTLS']
 
     def get(self):
@@ -99,7 +100,7 @@ class Mail(object):
         """ Returns valid ForceSecureNotification value """
 
         _forceSecureNotification = self.forceSecureNotification
-        if isinstance(_forceSecureNotification, basestring):
+        if isinstance(_forceSecureNotification, string_types):
             if(_forceSecureNotification == None or _forceSecureNotification == ""):
                 return None
             else:

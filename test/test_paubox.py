@@ -23,12 +23,12 @@ class TestPaubox(unittest.TestCase):
         recipients = ['recipient@example.com']
         from_ = 'sender@yourdomain.com'
         subject = 'Testing!'
-        plain_html_content = '<html><body><h1>Hello World!</h1></body></html>'
+        plain_html_content = b'<html><body><h1>Hello World!</h1></body></html>'
         content = {
             'text/plain': 'Hello World!',
             'text/html': plain_html_content
         }
-        attachment_content = base64.b64encode('Hello World!')
+        attachment_content = base64.b64encode(b'Hello World!')
         optional_headers = {
             'attachments': [{
                 'fileName': 'the_file.txt',
@@ -58,7 +58,7 @@ class TestPaubox(unittest.TestCase):
                     },
                     'attachments': [
                         {
-                            'content': 'SGVsbG8gV29ybGQh',
+                            'content': b'SGVsbG8gV29ybGQh',
                             'contentType': 'text/plain',
                             'fileName': 'the_file.txt'
                         }
@@ -117,10 +117,10 @@ class TestPaubox(unittest.TestCase):
         recipients = [os.environ.get('RECIPIENT')]
         from_ = os.environ.get('APPROVED_SENDER')
         subject = 'Testing!'
-        attachment_content = base64.b64encode('Hello World!')
+        attachment_content = base64.b64encode(b'Hello World!')
         content = {
             'text/plain': 'Hello World!',
-            'text/html': "<html><body><h1>Hello World!</h1></body></html>"
+            'text/html': b"<html><body><h1>Hello World!</h1></body></html>"
         }
         optional_headers = {
             'attachments': [{
