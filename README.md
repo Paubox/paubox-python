@@ -332,6 +332,49 @@ print(disposition_response.status_code)
 print(disposition_response.headers)
 print(disposition_response.text)
 ```
+### Dynamic Template
+
+This is an example Python client for the Paubox API, which demonstrates how to call the following endpoints:
+
+- Create a dynamic template
+- Update a dynamic template
+- Delete a dynamic template
+- Get a list of dynamic templates
+- Get a specific dynamic template
+
+
+1. Create an instance of the DynamicTemplate class with your credentials:
+
+```python
+from paubox import paubox
+from paubox.helpers.DynamicTemplate import PauboxAPI
+
+api = PauboxAPI(USERNAME, API_KEY)
+```
+2. Call the API methods as needed:
+
+```python
+# Create a dynamic template
+response = api.create_dynamic_template(TEMPLATE_PATH, TEMPLATE_NAME)
+
+# Update a dynamic template
+response = api.updateDynamicTemplate(TEMPLATE_ID, TEMPLATE_PATH, TEMPLATE_NAME)
+
+# Delete a dynamic template
+response = api.delete_dynamic_template(TEMPLATE_ID)
+
+# Get a list of dynamic templates
+response = api.get_dynamic_templates()
+
+# Get a specific dynamic template
+response = api.get_dynamic_template(TEMPLATE_ID)
+```
+3. Check the responses returned by the API calls:
+
+```python
+print(response)
+```
+
 
 <a name="#contributing"></a>
 ## Contributing
