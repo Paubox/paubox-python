@@ -333,6 +333,50 @@ print(disposition_response.headers)
 print(disposition_response.text)
 ```
 
+### Webhook Enpoint
+
+This is an example Python client for the WebhookEndpoint, which demonstrates how to call the following endpoints:
+
+- Create a webhook endpoint
+- Update a webhook endpoint
+- Delete a webhook endpoint
+- Get a list of webhook endpoints
+- Get a specific webhook endpoint
+
+
+1. Create an instance of the WebhookEndpoint class with your credentials:
+
+```python
+from paubox import paubox
+from paubox.helpers.WebhookEndpoint import WebhookEndpoint
+
+api = WebhookEndpoint(USERNAME, API_KEY)
+```
+2. Call the API methods as needed:
+
+```python
+# Create a dynamic template
+response = api.create_webhook_endpoint(self, target_url, events, active, signing_key, api_key)
+
+# Update a dynamic template
+response = api.update_webhook_endpoint(self, endpoint_id, target_url, events, active, signing_key, api_key)
+
+# Delete a dynamic template
+response = api.delete_webhook_endpoint(self, endpoint_id)
+
+# Get a list of dynamic templates
+response = api.get_webhook_endpoints(self)
+
+# Get a specific dynamic template
+response = api.get_webhook_endpoint(self, endpoint_id)
+```
+3. Check the responses returned by the API calls:
+
+```python
+print(response)
+```
+
+
 <a name="#contributing"></a>
 ## Contributing
 
